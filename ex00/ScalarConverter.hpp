@@ -1,5 +1,7 @@
+#include <cstdlib>
 #include <string>
 #include <iostream>
+#include <iomanip>
 
 class ScalarConverter
 {
