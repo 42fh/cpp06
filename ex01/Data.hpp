@@ -1,8 +1,14 @@
+#include <string>
+
 class Data
 {
 private:
-	/* data */
+	std::string str;
 public:
-	Data(/* args */);
+	Data();
+	Data(Data&);
+	Data(std::string str);
 	~Data();
+	Data& operator=(Data&);
+	std::string getStr();
 };
