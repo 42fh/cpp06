@@ -27,4 +27,30 @@ ergo:
 	make re
 	./$(NAME)
 
+tests:
+	./prg 0
+	./prg 1
+	./prg 0.0
+	./prg 0.1
+	./prg 123
+	./prg -987
+	./prg 123.456
+	./prg -987.654
+	./prg 123.456f
+	./prg -987.654f
+	./prg a
+	./prg '*'
+	./prg ' '
+	./prg '%'
+
+badtests:
+	./prg 1a
+	./prg a1
+	./prg 1.0g
+	./prg a1.0g
+	./prg a1.0
+	./prg aa
+
+	
+
 .PHONY: all clean fclean re go ergo

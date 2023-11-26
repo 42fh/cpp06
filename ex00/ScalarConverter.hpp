@@ -2,7 +2,8 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
-#include <limits.h>
+#include <limits>
+#include <cmath>
 
 class ScalarConverter
 {

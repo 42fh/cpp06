@@ -5,26 +5,24 @@ namespace
 	/**
 	 * returns 1 if str contains only printables, 0 otherwise
 	*/
-	int containsOnlyPrint(std::string str)
-	{
-		for (std::string::iterator i = str.begin(); i != str.end(); i++)
-		{
-			if (isprint(*i) == 0)
-				return (0);
-		}
-		return (1);
-	}
+	// int containsOnlyPrint(std::string str)
+	// {
+	// 	for (std::string::iterator i = str.begin(); i != str.end(); i++)
+	// 	{
+	// 		if (isprint(*i) == 0)
+	// 			return (0);
+	// 	}
+	// 	return (1);
+	// }
 
 	/**
 	 * returns 1 if str contains only digits, 0 otherwise
 	*/
 	int containsOnlyDigit(std::string str)
 	{
-		for (std::string::iterator i = str.begin(); i != str.end(); i++)
-		{
-			if (isdigit(*i) == 0)
-				return (0);
-		}
+		size_t posNotDotDigit = str.find_first_not_of("0123456789");
+		if (posNotDotDigit != std::string::npos)
+			return (0);
 		return (1);
 	}
 
@@ -55,37 +53,27 @@ namespace
 	{
 		if (str.length() < 1)
 			return (0);
-		if (containsOnlyPrint(str) != 1)
-			return (0);
 		if (str.length() == 1)
 		{
 			if (isdigit(str[0]) != 0)
 				return (2);
-			else if (isprint(str[0]) != 0)
-				return (1);
 			else
-				return (0);
+				return (1);
 		}
 		if (containsOnlyDigit(str) == 1 || 
-			(str[0] == '-' && containsOnlyDigit(str.substr(1)) == 1))
+			(containsOnlyDigit(str.substr(1)) == 1 && str[0] == '-'))
 			return (2);
-		if (containsOneDotAndDigits(str) == 1)
+		if (containsOneDotAndDigits(str) == 1 || 
+			(containsOneDotAndDigits(str.substr(1)) == 1 && str[0] == '-'))
 			return (4);
-		if (containsOneDotAndDigits(str.substr(0, str.length() - 1)) == 1)
+		if ((str[str.length() - 1] == 'f' && containsOneDotAndDigits(str.substr(0, str.length() - 2)) == 1) || 
+			(str[str.length() - 1] == 'f' && containsOneDotAndDigits(str.substr(1, str.length() - 2)) == 1 && str[0] == '-'))
 			return (3);
 		if (str == "nan" || str == "-inf" || str == "+inf")
 			return (4);
 		if (str == "-inff" || str == "+inff")
 			return (3);
 		return (0);
-	}
-
-	void outputdifd(char c, int i, float f, double d)
-	{
-		std::cout << "char: " << c << std::endl;
-		std::cout << "int: " << i << std::endl;
-		std::cout << "float: " << f << "f" << std::endl;
-		std::cout << "double: " << d << std::endl;
 	}
 
 	void convertFromChar(std::string str)
@@ -101,7 +89,13 @@ namespace
 		f = static_cast<float>(c);
 		d = static_cast<double>(c);
 
-		outputdifd(c, i, f, d);
+		if (isprint(c) == 0)
+			std::cout << "char: " << "Non displayable" << std::endl;
+		else
+			std::cout << "char: " << c << std::endl;
+		std::cout << "int: " << i << std::endl;
+		std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
+		std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
 	}
 
 	void convertFromInt(std::string str)
@@ -117,7 +111,16 @@ namespace
 		f = static_cast<float>(i);
 		d = static_cast<double>(i);
 
-		outputdifd(c, i, f, d);
+		if (d < 0 || d > 255)
+			std::cout << "char: " << "impossible" << std::endl;
+		else if (isprint(c) == 0)
+			std::cout << "char: " << "Non displayable" << std::endl;
+		else
+			std::cout << "char: " << c << std::endl;
+
+		std::cout << "int: " << i << std::endl;
+		std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
+		std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
 	}
 
 	void convertFromFloat(std::string str)
@@ -133,7 +136,28 @@ namespace
 		i = static_cast<int>(f);
 		d = static_cast<double>(f);
 
-		outputdifd(c, i, f, d);
+		if (d < 0 || d > 255)
+			std::cout << "char: " << "impossible" << std::endl;
+		else if (isprint(c) == 0)
+			std::cout << "char: " << "Non displayable" << std::endl;
+		else
+			std::cout << "char: " << c << std::endl;
+
+		if (f > static_cast<float>(std::numeric_limits<int>::max()) || 
+			f < static_cast<float>(std::numeric_limits<int>::min()))
+			std::cout << "int: " << "impossible: overflow detected" << std::endl;
+		else
+			std::cout << "int: " << i << std::endl;
+		
+		if (f == std::floor(f))
+			std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
+		else
+			std::cout << "float: " << std::setprecision(10) << f << "f" << std::endl;
+
+		if (d == std::floor(d))
+			std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
+		else
+			std::cout << "double: " << std::setprecision(10) << d << std::endl;
 	}
 
 	void convertFromDouble(std::string str)
@@ -149,7 +173,35 @@ namespace
 		i = static_cast<int>(d);
 		f = static_cast<float>(d);
 
-		outputdifd(c, i, f, d);
+		if (d < 0 || d > 255 || d != d)
+			std::cout << "char: " << "impossible" << std::endl;
+		else if (isprint(c) == 0)
+			std::cout << "char: " << "Non displayable" << std::endl;
+		else
+			std::cout << "char: " << c << std::endl;
+
+		if (d != d)
+			std::cout << "int: " << "impossible" << std::endl;
+		else if (d > static_cast<double>(std::numeric_limits<int>::max()) || 
+				 d < static_cast<double>(std::numeric_limits<int>::min()))
+			std::cout << "int: " << "impossible: overflow detected" << std::endl;
+		else
+			std::cout << "int: " << i << std::endl;
+
+		if (d == +std::numeric_limits<double>::infinity() || d == -std::numeric_limits<double>::infinity())
+			std::cout << "float: " << std::fixed << std::setprecision(10) << f << "f" << std::endl;
+		else if (d > +static_cast<double>(std::numeric_limits<float>::max()) || 
+			d < -static_cast<double>(std::numeric_limits<float>::max()))
+			std::cout << "float: " << "impossible: overflow detected" << std::endl;
+		else if (f == std::floor(f))
+			std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
+		else
+			std::cout << "float: " << std::fixed << std::setprecision(10) << f << "f" << std::endl;
+
+		if (d == std::floor(d))
+			std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
+		else
+			std::cout << "double: " << std::setprecision(10) << d << std::endl;
 	}
 
 }
@@ -160,7 +212,9 @@ void ScalarConverter::convert(std::string str)
 
 	type = detectType(str);
 	if (type == 0)
-		std::cout << "Error: the input provided is invalid" << std::endl;
+		std::cout << "Error: the input \"" 
+					<< str
+					<<"\" provided is invalid" << std::endl;
 	else if (type == 1)
 		convertFromChar(str);
 	else if (type == 2)
