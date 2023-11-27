@@ -4,6 +4,5 @@
 class Base
 {
 public:
-	virtual ~Base();
-	void fish();
+	virtual ~Base() = 0;
 };

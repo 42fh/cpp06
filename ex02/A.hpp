@@ -3,8 +3,6 @@
 #include <iostream>
 #include "Base.hpp"
 
-class A: virtual public Base
+class A: public Base
 {
-public:
-	~A();
 };

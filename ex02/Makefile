@@ -1,7 +1,7 @@
 #CXX is short for CPP Compiler
 CXX:=c++
 NAME:=prg
-SRCS:=main.cpp A.cpp
+SRCS:=main.cpp Base.cpp Foo.cpp
 OBJS:= ${SRCS:.cpp=.o} 
 CPPFLAGS:=-Wall -Wextra -Werror -std=c++98 
 

@@ -3,14 +3,17 @@
 #include "A.hpp"
 // #include "B.hpp"
 // #include "C.hpp"
-// #include "Foo.hpp"
+#include "Foo.hpp"
 
 int main()
 {
-	// Base* p = generate();
-	// (void)p;
+	std::srand(std::time(NULL));
 
-	A a;
-	(void)a;
+	for (int i = 0; i < 10; i++)
+	{
+		Base* p = generate();
+		identify(p);
+		delete p;
+	}	
 	return 0;
 }

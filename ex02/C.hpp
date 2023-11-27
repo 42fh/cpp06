@@ -4,5 +4,4 @@
 
 class C: public Base
 {
-	~C();
 };
