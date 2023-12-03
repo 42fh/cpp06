@@ -9,10 +9,12 @@
 
 class ScalarConverter
 {
+private:
+	ScalarConverter();
+
 public:
 	static void convert(std::string);
 
-	ScalarConverter();
 	ScalarConverter(ScalarConverter&);
 	ScalarConverter& operator=(ScalarConverter&);
 	virtual ~ScalarConverter() = 0;
