@@ -71,7 +71,7 @@ namespace
 			return (3);
 		if (str == "nan" || str == "-inf" || str == "+inf")
 			return (4);
-		if (str == "-inff" || str == "+inff")
+		if (str == "-inff" || str == "+inff" || str == "nanf")
 			return (3);
 		return (0);
 	}
@@ -146,6 +146,8 @@ namespace
 		if (f > static_cast<float>(std::numeric_limits<int>::max()) || 
 			f < static_cast<float>(std::numeric_limits<int>::min()))
 			std::cout << "int: " << "impossible: overflow detected" << std::endl;
+		else if (std::isnan(f) || std::isinf(f))
+			std::cout << "int: " << "impossible: conversion not defined" << std::endl;
 		else
 			std::cout << "int: " << i << std::endl;
 		
